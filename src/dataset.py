@@ -8,7 +8,7 @@ class VoicePathologyDataset(Dataset):
         self.y = np.load(y_path,allow_pickle=True)
         self.is_train = is_train
         self.freq_masking = FrequencyMasking(freq_mask_param = 15)
-        self.time_masking = TimeMasking(time_mask_param = 15)
+        self.time_masking = TimeMasking(time_mask_param = 20)
     def __len__(self):
         return len(self.X)
     def __getitem__(self,idx):
@@ -20,6 +20,7 @@ class VoicePathologyDataset(Dataset):
         if self.is_train:
             x = self.freq_masking(x)
             x = self.time_masking(x)
+            pass
         return x,y
 def get_data_loaders():
     train_dataset = VoicePathologyDataset(x_path = '../data/processed/train_X.npy',y_path = '../data/processed/train_y.npy',is_train = True)
