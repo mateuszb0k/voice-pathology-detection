@@ -11,27 +11,41 @@ def load_and_clean_audio(file_path:str, target_sr: int = 16000, top_db: int = 30
         return normalized
     else:
         return trimmed
-def extract_windows(signal, window_size: int = 16000, hop_length: int = 8000) -> np.ndarray:
-    windows = []
+# def extract_windows(signal, window_size: int = 16000, hop_length: int = 8000) -> np.ndarray:
+#     windows = []
+#     signal_length = len(signal)
+#     if window_size > signal_length:
+#         times = np.ceil(window_size/signal_length)
+#         signal = np.tile(signal, (int(times)))
+#         signal = signal[:window_size]
+#         windows.append(signal)
+#         windows = np.array(windows)
+#         return windows
+#     else:
+#         for i in range(0,signal_length,hop_length):
+#             frame = signal[i:i+window_size]
+#             frame_length = len(frame)
+#             if frame_length<window_size:
+#                 times = np.ceil(window_size/frame_length)
+#                 frame = np.tile(frame, (int(times)))
+#                 frame = frame[:window_size]
+#             windows.append(frame)
+#     windows = np.array(windows)
+#     return windows
+def pad_or_truncate(signal, sr:int=16000,duration:int = 3):
+    target_length = sr*duration
     signal_length = len(signal)
-    if window_size > signal_length:
-        times = np.ceil(window_size/signal_length)
-        signal = np.tile(signal, (int(times)))
-        signal = signal[:window_size]
-        windows.append(signal)
-        windows = np.array(windows)
-        return windows
+    if signal_length<target_length:
+        pad_left = (target_length-signal_length)//2
+        pad_right = target_length-signal_length-pad_left
+        return np.pad(signal,(pad_left,pad_right),mode='constant')
     else:
-        for i in range(0,signal_length,hop_length):
-            frame = signal[i:i+window_size]
-            frame_length = len(frame)
-            if frame_length<window_size:
-                times = np.ceil(window_size/frame_length)
-                frame = np.tile(frame, (int(times)))
-                frame = frame[:window_size]
-            windows.append(frame)
-    windows = np.array(windows)
-    return windows
+        start = (signal_length-target_length)//2
+        return signal[start:start+target_length]
+
+
+
+
 if __name__ == "__main__":
     PATH = "../data/raw/2_2-u_n.wav"
     clean_audio = load_and_clean_audio(PATH)
