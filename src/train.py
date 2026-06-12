@@ -18,7 +18,7 @@ pathological_count = np.count_nonzero(train_y)
 pathological_weight = len(train_y)/(2*pathological_count)
 healthy_weight = len(train_y)/(2*(len(train_y)-pathological_count))
 class_weights = torch.tensor([healthy_weight,pathological_weight],dtype=torch.float32).to(device)
-model = ModifiedResNet().to(device)
+model = VoicePathologyModel().to(device)
 optimizer= torch.optim.Adam(model.parameters(),lr=1e-4)
 EPOCHS = 50
 lr_reducer = torch.optim.lr_scheduler.CosineAnnealingLR(

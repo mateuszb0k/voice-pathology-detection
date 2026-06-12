@@ -10,7 +10,7 @@ def process_split(csv_path,split_name):
     y = []
     groups = []
     for _,row in tqdm.tqdm(df.iterrows()):
-        path = f"../data/raw/{row['FilePath']}"
+        path = f"../data/wav/{row['FilePath']}"
         clean_audio = load_and_clean_audio(path)
         if len(clean_audio)==0:
             continue

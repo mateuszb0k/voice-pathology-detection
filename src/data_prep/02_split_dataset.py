@@ -14,6 +14,24 @@ if __name__ == "__main__":
     train_data = data[data['Id'].isin(train_spk['Id'])]
     val_data = data[data['Id'].isin(val_spk['Id'])]
     test_data = data[data['Id'].isin(test_spk['Id'])]
+    train_ids = set(train_data["Id"])
+    val_ids = set(val_data["Id"])
+    test_ids = set(test_data["Id"])
+
+    print("train ∩ val:", len(train_ids & val_ids))
+    print("train ∩ test:", len(train_ids & test_ids))
+    print("val ∩ test:", len(val_ids & test_ids))
+    print("Train:")
+    print(train_data["Status"].value_counts(normalize=True))
+    print(train_data["Status"].value_counts())
+
+    print("Val:")
+    print(val_data["Status"].value_counts(normalize=True))
+    print(val_data["Status"].value_counts())
+
+    print("Test:")
+    print(test_data["Status"].value_counts(normalize=True))
+    print(test_data["Status"].value_counts())
     train_data.to_csv("../../data/metadata/train.csv", index=False)
 
     val_data.to_csv("../../data/metadata/val.csv", index=False)

@@ -3,8 +3,12 @@ import librosa as lr
 import numpy as np
 def load_and_clean_audio(file_path:str, target_sr: int = 16000, top_db: int = 30):
     y,sr = lr.load(file_path, sr=target_sr)
+    if y is None or len(y) == 0:
+        return np.array([], dtype=np.float32)
     y= y-np.mean(y)
     trimmed,_ = lr.effects.trim(y, top_db=top_db)
+    if trimmed is None or len(trimmed) == 0:
+        return np.array([], dtype=np.float32)
     max_amp = np.max(np.abs(trimmed))
     if max_amp!=0 and len(trimmed)>0:
         normalized = trimmed/max_amp
