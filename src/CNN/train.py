@@ -1,19 +1,19 @@
 import torch
-from dataset import get_data_loaders
-from model import VoicePathologyModel,ModifiedResNet
+from src.CNN.dataset import get_data_loaders
+from src.CNN.model import VoicePathologyModel
 from sklearn.metrics import roc_auc_score,recall_score
 import torch.nn.functional as F
 import numpy as np
 import tqdm
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-TRAIN_X_PATH = '../data/processed/train_X.npy'
-VAL_X_PATH = '../data/processed/val_X.npy'
-TEST_X_PATH = '../data/processed/test_X.npy'
-TRAIN_Y_PATH = '../data/processed/train_y.npy'
-VAL_Y_PATH = '../data/processed/val_y.npy'
-TEST_Y_PATH = '../data/processed/test_y.npy'
+TRAIN_X_PATH = '../../data/processed/train_X.npy'
+VAL_X_PATH = '../../data/processed/val_X.npy'
+TEST_X_PATH = '../../data/processed/test_X.npy'
+TRAIN_Y_PATH = '../../data/processed/train_y.npy'
+VAL_Y_PATH = '../../data/processed/val_y.npy'
+TEST_Y_PATH = '../../data/processed/test_y.npy'
 #fix
-train_y = np.load('../data/processed/train_y.npy',allow_pickle=True)
+train_y = np.load('../../data/processed/train_y.npy', allow_pickle=True)
 pathological_count = np.count_nonzero(train_y)
 pathological_weight = len(train_y)/(2*pathological_count)
 healthy_weight = len(train_y)/(2*(len(train_y)-pathological_count))
@@ -68,7 +68,7 @@ for epoch in tqdm.tqdm(range(EPOCHS)):
     if auc>best_auc:
         best_auc = auc
         patience_counter = 0
-        torch.save(model.state_dict(),f'../data/weightbest.pth')
+        torch.save(model.state_dict(), f'../../data/weightbest.pth')
     else:
         patience_counter += 1
         if patience_counter >= PATIENCE:

@@ -54,5 +54,5 @@ if __name__ == "__main__":
     PATH = "../data/raw/2_2-u_n.wav"
     clean_audio = load_and_clean_audio(PATH)
     print(clean_audio.shape)
-    frames = extract_windows(clean_audio)
+    frames = pad_or_truncate(clean_audio)
     print(frames.shape)
