@@ -2,23 +2,11 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.metrics import balanced_accuracy_score,f1_score,precision_score,recall_score,confusion_matrix
+from src.classical_methods.load_features import get_train_features,get_test_features,get_val_features
 
-features = pd.read_csv("../../../data/metadata/features.csv")
-test_split = pd.read_csv("../../../data/metadata/test.csv")
-train_split = pd.read_csv("../../../data/metadata/train.csv")
-val_split = pd.read_csv("../../../data/metadata/val.csv")
-
-test_features = test_split.merge(features, on=['FilePath', 'Status'])
-test_features_x = test_features.drop(columns=['FilePath', 'Status','Id','RecordingID'])
-test_features_y = test_features['Status']
-
-train_features = train_split.merge(features, on=['FilePath', 'Status'])
-train_features_x = train_features.drop(columns=['FilePath', 'Status','Id','RecordingID'])
-train_features_y = train_features['Status']
-
-val_features = val_split.merge(features, on=['FilePath', 'Status'])
-val_features_x = val_features.drop(columns=['FilePath', 'Status','Id','RecordingID'])
-val_features_y = val_features['Status']
+test_features_x, test_features_y = get_test_features()
+train_features_x, train_features_y = get_train_features()
+val_features_x, val_features_y = get_val_features()
 
 scaler = StandardScaler()
 X_train = scaler.fit_transform(train_features_x)
