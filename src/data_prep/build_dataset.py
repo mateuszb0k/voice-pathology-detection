@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import tqdm
 from audio_processor import load_and_clean_audio,pad_or_truncate
-from feature_extractor import extract_mel_spectrograms
+from src.CNN.feature_extractor import extract_mel_spectrograms
 import json
 def process_split(csv_path,split_name):
     df = pd.read_csv(csv_path)
