@@ -6,7 +6,7 @@ def extract_mel_spectrograms(window,sr: int = 16000,n_fft: int =1024, hop_length
     spectrogram_db = lr.power_to_db(spectrogram, ref=np.max)
     return spectrogram_db
 if __name__ == "__main__":
-    PATH = "../data/raw/2_2-u_n.wav"
+    PATH = "../../data/wav/healthy/2/2-a_h.wav"
     clean_audio = load_and_clean_audio(PATH)
     window = pad_or_truncate(clean_audio)
     spectrograms = extract_mel_spectrograms(window)

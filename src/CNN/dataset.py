@@ -22,11 +22,11 @@ class VoicePathologyDataset(Dataset):
             x = self.time_masking(x)
             pass
         return x,y
-def get_data_loaders():
+def get_data_loaders(batch_size: int = 32):
     train_dataset = VoicePathologyDataset(x_path ='../../data/processed/train_X.npy', y_path ='../../data/processed/train_y.npy', is_train = True)
     val_dataset = VoicePathologyDataset(x_path ='../../data/processed/val_X.npy', y_path ='../../data/processed/val_y.npy', is_train = False)
     test_dataset = VoicePathologyDataset(x_path ='../../data/processed/test_X.npy', y_path ='../../data/processed/test_y.npy', is_train = False)
-    train_data_loader = DataLoader(train_dataset,batch_size = 32,shuffle = True)
-    val_data_loader = DataLoader(val_dataset,batch_size = 32,shuffle = False)
-    test_data_loader = DataLoader(test_dataset,batch_size = 32,shuffle = False)
+    train_data_loader = DataLoader(train_dataset,batch_size = batch_size,shuffle = True)
+    val_data_loader = DataLoader(val_dataset,batch_size = batch_size,shuffle = False)
+    test_data_loader = DataLoader(test_dataset,batch_size = batch_size,shuffle = False)
     return train_data_loader,val_data_loader,test_data_loader
