@@ -40,11 +40,11 @@ class CrossAttentionModel(nn.Module):
         super(CrossAttentionModel, self).__init__()
 
         self.classifier = nn.Sequential(
-            nn.Linear(64,32),
+            nn.Linear(64, 32),
             nn.BatchNorm1d(32),
             nn.ReLU(),
             nn.Dropout(0.3),
-            nn.Linear(32,2)
+            nn.Linear(32, 2)
         )
 
         self.spectrogram_encoder = SpectrogramEncoder()
@@ -56,12 +56,11 @@ class CrossAttentionModel(nn.Module):
         spec_features = self.spectrogram_encoder(spectrogram)
         features_representation = self.feature_encoder(features)
 
-        attn_output, attn_weights = self.multihead_attention(query = features_representation, key = spec_features, value = spec_features)
+        attn_output, attn_weights = self.multihead_attention(query=features_representation, key=spec_features,
+                                                             value=spec_features)
 
         attn_output = attn_output.squeeze(1)
 
         output = self.classifier(attn_output)
 
         return output, attn_weights
-
-idx = np.concatenate([np.flatnonzero(train_y == 0)[:16], np.flatnonzero(train_y == 1)[:16]])
