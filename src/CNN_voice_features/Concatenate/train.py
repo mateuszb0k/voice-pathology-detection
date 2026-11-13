@@ -1,10 +1,10 @@
+import numpy as np
 import torch
+import torch.nn.functional as F
+import tqdm
 from dataset import get_dataloaders
 from model import ConcatenateModel
-from sklearn.metrics import roc_auc_score, recall_score,accuracy_score
-import torch.nn.functional as F
-import numpy as np
-import tqdm
+from sklearn.metrics import accuracy_score, recall_score, roc_auc_score
 
 PATHOLOGICAL_COUNT = 10794
 DATASET_LENGTH = 16396
@@ -82,7 +82,7 @@ for epoch in tqdm.tqdm(range(EPOCHS)):
     if auc>best_auc:
         best_auc = auc
         patience_counter = 0
-        torch.save(model.state_dict(), f'../../../data/Concatenate_best.pth')
+        torch.save(model.state_dict(), '../../../data/Concatenate_best.pth')
     else:
         patience_counter += 1
         if patience_counter >= PATIENCE:

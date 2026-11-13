@@ -1,11 +1,13 @@
-from torch.nn import MultiheadAttention
-from torch import nn
-from src.CNN.model import VoicePathologyModel
 import torch
+from torch import nn
+from torch.nn import MultiheadAttention
+
+from src.CNN.model import VoicePathologyModel
+
 
 class eGeMAPSEncoder(nn.Module):
     def __init__(self):
-        super(eGeMAPSEncoder, self).__init__()
+        super().__init__()
 
         self.fc = nn.Sequential(
             nn.Linear(88, 64)
@@ -19,7 +21,7 @@ class eGeMAPSEncoder(nn.Module):
 
 class SpectrogramEncoder(nn.Module):
     def __init__(self):
-        super(SpectrogramEncoder, self).__init__()
+        super().__init__()
 
         self.features = VoicePathologyModel().features
 
@@ -35,7 +37,7 @@ class SpectrogramEncoder(nn.Module):
 
 class CrossAttentionModel(nn.Module):
     def __init__(self):
-        super(CrossAttentionModel, self).__init__()
+        super().__init__()
 
         self.classifier = nn.Sequential(
             nn.Linear(128, 32),

@@ -1,7 +1,9 @@
 import pathlib
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 from sklearn.model_selection import train_test_split
+
 np.random.seed(42)
 META_DATA_PATH = pathlib.Path("../../data/metadata/svd_cleaned_metadata.csv")
 if __name__ == "__main__":

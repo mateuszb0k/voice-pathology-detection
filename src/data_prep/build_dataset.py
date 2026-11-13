@@ -1,10 +1,14 @@
-import pandas as pd
-import numpy as np
-import tqdm
-from audio_processor import load_and_clean_audio,pad_or_truncate
-from src.CNN.feature_extractor import extract_mel_spectrograms
 import json
+
+import numpy as np
+import pandas as pd
+import tqdm
+from audio_processor import load_and_clean_audio, pad_or_truncate
 from sklearn.preprocessing import StandardScaler
+
+from src.CNN.feature_extractor import extract_mel_spectrograms
+
+
 def process_split(csv_path,split_name,features_path):
 
     df = pd.read_csv(csv_path)
@@ -64,25 +68,25 @@ if __name__ == '__main__':
     mean_train_X = np.mean(train_X)
     std_train_X = np.std(train_X)
     d = {"mean_train_X":str(mean_train_X),"std_train_X":str(std_train_X)}
-    with open(f'../../data/metadata/normalization_params.json', 'w') as f:
+    with open('../../data/metadata/normalization_params.json', 'w') as f:
         json.dump(d, f)
     train_X = (train_X - mean_train_X) / std_train_X
     val_X = (val_X - mean_train_X) / std_train_X
     test_X = (test_X - mean_train_X) / std_train_X
-    np.save(f'../../data/processed/train_X.npy', train_X)
-    np.save(f'../../data/processed/val_X.npy', val_X)
-    np.save(f'../../data/processed/test_X.npy', test_X)
+    np.save('../../data/processed/train_X.npy', train_X)
+    np.save('../../data/processed/val_X.npy', val_X)
+    np.save('../../data/processed/test_X.npy', test_X)
 
     #features normalization
     scaler.fit(train_features)
     train_features = scaler.transform(train_features)
     val_features = scaler.transform(val_features)
     test_features = scaler.transform(test_features)
-    np.save(f'../../data/processed/train_features.npy', train_features)
-    np.save(f'../../data/processed/val_features.npy', val_features)
-    np.save(f'../../data/processed/test_features.npy', test_features)
+    np.save('../../data/processed/train_features.npy', train_features)
+    np.save('../../data/processed/val_features.npy', val_features)
+    np.save('../../data/processed/test_features.npy', test_features)
 
     params = {"mean_train_features" : scaler.mean_.tolist() ,"std_train_features" : scaler.scale_.tolist()}
 
-    with open(f'../../data/metadata/features_normalization_params.json', 'w') as f:
+    with open('../../data/metadata/features_normalization_params.json', 'w') as f:
         json.dump(params, f)

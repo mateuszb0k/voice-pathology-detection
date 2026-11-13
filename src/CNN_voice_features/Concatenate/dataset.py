@@ -1,7 +1,9 @@
-import torch
-from torch.utils.data import DataLoader,Dataset
-from torchaudio.transforms import FrequencyMasking,TimeMasking
 import numpy as np
+import torch
+from torch.utils.data import DataLoader, Dataset
+from torchaudio.transforms import FrequencyMasking, TimeMasking
+
+
 class ConcatenateDataset(Dataset):
     def __init__(self,spec_path,feats_path,y_path,is_train):
         self.X = np.load(spec_path,allow_pickle=True)
@@ -30,7 +32,6 @@ class ConcatenateDataset(Dataset):
         if self.is_train:
             x = self.time_masking(x)
             x = self.freq_masking(x)
-            pass
 
         return x,feats,y
 def get_dataloaders():
@@ -38,9 +39,9 @@ def get_dataloaders():
     train_dataset = ConcatenateDataset(spec_path = '../../../data/processed/train_X.npy',
                                        y_path = '../../../data/processed/train_y.npy',
                                        feats_path='../../../data/processed/train_features.npy' ,is_train = True)
-    val_dataset = ConcatenateDataset(spec_path='../../../data/processed/test_X.npy',
-                                       y_path='../../../data/processed/test_y.npy',
-                                       feats_path='../../../data/processed/test_features.npy', is_train=False)
+    val_dataset = ConcatenateDataset(spec_path='../../../data/processed/val_X.npy',
+                                       y_path='../../../data/processed/val_y.npy',
+                                       feats_path='../../../data/processed/val_features.npy', is_train=False)
     test_dataset = ConcatenateDataset(spec_path='../../../data/processed/test_X.npy',
                                       y_path='../../../data/processed/test_y.npy',
                                       feats_path='../../../data/processed/test_features.npy', is_train=False)

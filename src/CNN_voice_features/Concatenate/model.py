@@ -1,10 +1,12 @@
-from src.CNN.model import VoicePathologyModel
 import torch
 from torch import nn
-from sklearn.preprocessing import StandardScaler
+
+from src.CNN.model import VoicePathologyModel
+
+
 class fc_model(torch.nn.Module):
     def __init__(self):
-        super(fc_model, self).__init__()
+        super().__init__()
         self.classifier = nn.Sequential(
             nn.Linear(216,64),
             nn.BatchNorm1d(64),
@@ -20,7 +22,7 @@ class fc_model(torch.nn.Module):
 
 class ConcatenateModel(torch.nn.Module):
     def __init__(self):
-        super(ConcatenateModel, self).__init__()
+        super().__init__()
         self.cnn_model = VoicePathologyModel()
         del self.cnn_model.classifier
         self.fc_model = fc_model()

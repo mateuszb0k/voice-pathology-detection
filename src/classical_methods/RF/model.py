@@ -1,7 +1,17 @@
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import balanced_accuracy_score,f1_score,precision_score,recall_score,confusion_matrix
-from src.classical_methods.load_features import get_train_features,get_test_features,get_val_features
+from sklearn.metrics import (
+    balanced_accuracy_score,
+    confusion_matrix,
+    f1_score,
+    precision_score,
+    recall_score,
+)
 
+from src.classical_methods.load_features import (
+    get_test_features,
+    get_train_features,
+    get_val_features,
+)
 
 train_features_x, train_features_y = get_train_features()
 test_features_x, test_features_y = get_test_features()

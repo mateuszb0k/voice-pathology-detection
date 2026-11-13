@@ -1,5 +1,7 @@
-import pandas as pd
 import pathlib
+
+import pandas as pd
+
 PATH = "../../data/metadata/recordings_binary_clean.csv"
 NEW_PATH = "../../data/metadata/svd_cleaned_metadata.csv"
 VOVEL_VARIANTS = ['a_n','a_l','a_h','a_lhl','i_n','i_l','i_h','i_lhl','u_n','u_l','u_h','u_lhl',]

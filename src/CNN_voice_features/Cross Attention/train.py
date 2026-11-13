@@ -1,11 +1,11 @@
-from model import CrossAttentionModel
-from src.CNN_voice_features.Concatenate.dataset import get_dataloaders
-from sklearn.metrics import roc_auc_score, recall_score,accuracy_score
 import numpy as np
-import torch.nn as nn
+import torch
 import torch.nn.functional as F
 import tqdm
-import torch
+from model import CrossAttentionModel
+from sklearn.metrics import accuracy_score, recall_score, roc_auc_score
+
+from src.CNN_voice_features.Concatenate.dataset import get_dataloaders
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -52,7 +52,7 @@ for epoch in tqdm.tqdm(range(EPOCHS)):
         running_loss += loss.item()
 
     loss_avg = running_loss / len(train_dataloader)
-    print("Training loss: {:.4f}".format(loss_avg))
+    print(f"Training loss: {loss_avg:.4f}")
 
     model.eval()
 
@@ -90,7 +90,7 @@ for epoch in tqdm.tqdm(range(EPOCHS)):
         best_auc = auc
         patience_counter = 0
 
-        torch.save(model.state_dict(),'../../../models/cross_attention_best_model.pth')
+        torch.save(model.state_dict(),'../../../models/new_cross_attention_best_model.pth')
 
     else:
         patience_counter += 1

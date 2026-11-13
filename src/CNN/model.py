@@ -1,9 +1,11 @@
-import torch.nn as nn
 import torch
-import torchvision.models as models
+from torch import nn
+from torchvision import models
+
+
 class VoicePathologyModel(nn.Module):
     def __init__(self):
-        super(VoicePathologyModel, self).__init__()
+        super().__init__()
         self.features = nn.Sequential(
             ConvBlock(1, 16),
             ConvBlock(16, 32),
@@ -25,7 +27,7 @@ class VoicePathologyModel(nn.Module):
         return self.classifier(x)
 class ConvBlock(nn.Module):
     def __init__(self, in_channel, out_channel):
-        super(ConvBlock, self).__init__()
+        super().__init__()
         self.block = nn.Sequential(
             nn.Conv2d(in_channel, out_channel, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(out_channel),
@@ -36,7 +38,7 @@ class ConvBlock(nn.Module):
         return self.block(x)
 class ModifiedResNet(nn.Module):
     def __init__(self):
-        super(ModifiedResNet, self).__init__()
+        super().__init__()
         resnet = models.resnet18(weights = models.ResNet18_Weights.DEFAULT)
         org_conv = resnet.conv1
         resnet.conv1 = nn.Conv2d(

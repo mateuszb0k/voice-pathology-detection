@@ -1,8 +1,9 @@
-import opensmile
 import pathlib
-import pandas as pd
+
 import librosa as lr
 import numpy as np
+import opensmile
+import pandas as pd
 from tqdm import tqdm
 
 SAMPLING_RATE = 16_000
@@ -47,7 +48,7 @@ if __name__ == "__main__":
         file_path = AUDIO_DIR / row.FilePath
         features = extract_features(str(file_path), SAMPLING_RATE, TOP_DB)
         if len(features) == 0:
-            print("Skipping file {}".format(row.FilePath))
+            print(f"Skipping file {row.FilePath}")
             skipped.append({"FilePath": row.FilePath})
             continue
         else:

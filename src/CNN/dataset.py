@@ -1,7 +1,9 @@
-import torch
-from torch.utils.data import DataLoader,Dataset
-from torchaudio.transforms import FrequencyMasking,TimeMasking
 import numpy as np
+import torch
+from torch.utils.data import DataLoader, Dataset
+from torchaudio.transforms import FrequencyMasking, TimeMasking
+
+
 class VoicePathologyDataset(Dataset):
     def __init__(self,x_path,y_path,is_train):
         self.X = np.load(x_path,allow_pickle=True)
@@ -20,7 +22,6 @@ class VoicePathologyDataset(Dataset):
         if self.is_train:
             x = self.freq_masking(x)
             x = self.time_masking(x)
-            pass
         return x,y
 def get_data_loaders(batch_size: int = 32):
     train_dataset = VoicePathologyDataset(x_path ='../../data/processed/train_X.npy', y_path ='../../data/processed/train_y.npy', is_train = True)

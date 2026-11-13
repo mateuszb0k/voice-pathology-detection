@@ -1,6 +1,18 @@
+import joblib
+from sklearn.metrics import (
+    balanced_accuracy_score,
+    confusion_matrix,
+    f1_score,
+    precision_score,
+    recall_score,
+)
 from xgboost import XGBClassifier
-from sklearn.metrics import balanced_accuracy_score,f1_score,precision_score,recall_score,confusion_matrix
-from src.classical_methods.load_features import get_train_features,get_test_features,get_val_features
+
+from src.classical_methods.load_features import (
+    get_test_features,
+    get_train_features,
+    get_val_features,
+)
 
 train_features_x, train_features_y = get_train_features()
 test_features_x, test_features_y = get_test_features()
@@ -36,3 +48,29 @@ for estimators in N_ESTIMATORS:
             cm = confusion_matrix(val_features_y, y_pred)
             print(cm)
 
+
+model = XGBClassifier(
+    learning_rate=0.05,
+    n_estimators=100,
+    max_depth=6,
+    scale_pos_weight=neg_count / pos_count,
+    random_state=123,
+    n_jobs=-1
+)
+model.fit(train_features_x, train_features_y)
+y_pred = model.predict(test_features_x)
+print(f"Results {100} Estimators, Depth {6} and learning rate {0.05}.")
+print(f"F1 Score: {f1_score(test_features_y, y_pred, average='macro')},"
+      f" Balanced Accuracy: {balanced_accuracy_score(test_features_y, y_pred)},"
+      f" Precision: {precision_score(test_features_y, y_pred, average='macro')}",
+      f" Recall: {recall_score(test_features_y, y_pred, average='macro')}")
+cm = confusion_matrix(test_features_y, y_pred)
+print(cm)
+joblib.dump(
+    {'model': model},
+    'xgboost_100_estimators_depth_6_lr_0_05.joblib',
+)
+joblib.dump(
+    {'feature_importances': model.feature_importances_},
+    'feature_importances_xgboost_100_estimators_depth_6_lr_0_05.joblib',
+)
